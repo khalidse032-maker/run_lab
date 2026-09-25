@@ -1,0 +1,759 @@
+/* =========================================================
+   Runtime Lab — PCB / circuit-board design system
+   Palette: deep board green + copper traces + warm paper text
+   ========================================================= */
+
+:root {
+  --pcb-dark: #0c2a21;      /* primary background — solder-mask green */
+  --pcb-darker: #081d17;    /* deepest shade, footer / hero base */
+  --pcb-panel: #123a2d;     /* card & alternate-section panel */
+  --pcb-panel-2: #163f31;   /* slightly lighter panel for hover/inputs */
+  --copper: #c9903f;        /* primary accent — copper trace */
+  --copper-light: #e9b96b;  /* hover / glow accent */
+  --paper: #f2ede0;         /* silkscreen off-white text */
+  --sage: #9fb8ab;          /* muted secondary text */
+  --led: #5fe0c0;           /* teal LED accent, used sparingly */
+  --line: rgba(201, 144, 63, 0.22); /* faint trace lines / borders */
+
+  --font-display: 'Poppins', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --container-w: 1180px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-display);
+  background: var(--pcb-dark);
+  color: var(--paper);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: var(--container-w);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; margin: 0; padding: 0; }
+img { max-width: 100%; display: block; }
+
+/* =========================================================
+   Global text hover — scale + color shift on every text element
+   ========================================================= */
+
+h1, h2, h3, h4, h5, h6,
+p, span, li, label,
+.hero-subtitle, .hero-tagline,
+.section-title, .section-subtitle,
+.team-card h3, .team-role, .team-bio,
+.about-card h3, .about-card p,
+.skill-item span,
+.contact-item h4, .contact-item p,
+.footer-brand h3, .footer-brand p, .footer-links a {
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover,
+p:hover, span:hover, li:hover, label:hover {
+  transform: scale(1.06);
+  color: var(--copper-light);
+}
+
+/* ---------- shared section chrome ---------- */
+
+section { position: relative; padding: 120px 0; }
+
+.section-title {
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 600;
+  color: var(--paper);
+  text-align: left;
+  margin: 0 0 12px;
+  max-width: 640px;
+}
+
+.section-subtitle {
+  font-size: 17px;
+  color: var(--sage);
+  max-width: 520px;
+  margin: 0 0 56px;
+  font-weight: 300;
+}
+
+/* circuit-trace divider used between sections instead of a flat border */
+.about::before,
+.skills::before,
+.contact::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--line) 15%, var(--copper) 50%, var(--line) 85%, transparent 100%);
+}
+
+.about::after,
+.skills::after,
+.contact::after {
+  content: "";
+  position: absolute;
+  top: -4px; left: 50%;
+  width: 8px; height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--copper);
+  box-shadow: 0 0 10px 2px rgba(201,144,63,0.6);
+}
+
+.about { background: var(--pcb-dark); }
+.team { background: var(--pcb-darker); }
+.skills { background: var(--pcb-dark); }
+.contact { background: var(--pcb-darker); }
+
+/* faint PCB grid texture, reused as a background-image across dark sections */
+.about, .team, .skills, .contact, .hero {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 46px 46px;
+  background-position: center;
+}
+.about, .skills { background-blend-mode: normal; }
+
+/* =========================================================
+   Navbar
+   ========================================================= */
+
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  background: rgba(8, 29, 23, 0.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  transition: background 0.3s ease, padding 0.3s ease;
+}
+
+.navbar.scrolled {
+  padding: 10px 40px;
+  background: rgba(8, 29, 23, 0.92);
+}
+
+.nav-brand .logo { display: flex; align-items: center; gap: 10px; }
+.logo-img {
+   width: 56px; height: 56px;
+   border-radius: 10px;
+   object-fit: cover;
+   border: 2px solid var(--copper);
+   transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.logo-img:hover {
+   transform: scale(1.1);
+   border-color: var(--copper-light);
+}
+.nav-brand h2 {
+   font-size: 19px;
+   font-weight: 600;
+   color: var(--paper);
+   margin: 0;
+   letter-spacing: 0.2px;
+   transition: transform 0.3s ease, color 0.3s ease;
+}
+.nav-brand h2:hover {
+   transform: scale(1.1);
+   color: var(--copper-light);
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+}
+.nav-links a {
+  font-size: 15px;
+  color: var(--sage);
+  font-weight: 400;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.2s ease;
+}
+.nav-links a:hover { color: var(--paper); }
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0; height: 2px;
+  background: var(--copper);
+  transition: width 0.25s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+
+.nav-whatsapp {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   background: var(--pcb-panel-2);
+   border: 1px solid var(--line);
+   color: var(--led);
+   padding: 9px 16px;
+   border-radius: 999px;
+   font-size: 14px;
+   font-weight: 500;
+    transition: border-color 0.2s ease;
+    animation: radius-morph 5s ease-in-out infinite;
+}
+.nav-whatsapp:hover { border-color: var(--led); }
+
+.nav-whatsapp i {
+   animation: icon-zoom 5.2s ease-in-out infinite;
+}
+
+@keyframes icon-zoom {
+   0%   { transform: scale(1); }
+   50%  { transform: scale(1.6); }
+   100% { transform: scale(1); }
+}
+
+@keyframes radius-morph {
+   0%   { border-width: 1px; border-color: var(--line); background-color: var(--pcb-panel-2); transform: scale(1); }
+   43%  { border-width: 1px; border-color: var(--line); background-color: var(--pcb-panel-2); transform: scale(1); }
+   50%  { border-width: 3px; border-color: var(--led); background-color: var(--copper-light); transform: scale(1.1); }
+   93%  { border-width: 3px; border-color: var(--led); background-color: var(--copper); transform: scale(1.1); }
+   100% { border-width: 1px; border-color: var(--line); background-color: var(--pcb-panel-2); transform: scale(1); }
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.hamburger span {
+  width: 24px; height: 2px;
+  background: var(--paper);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* =========================================================
+   Hero
+   ========================================================= */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  background-color: var(--pcb-darker);
+  overflow: hidden;
+}
+
+/* layered radial glows standing in for chip/board glow */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(480px 480px at 22% 30%, rgba(201,144,63,0.16), transparent 60%),
+    radial-gradient(560px 560px at 80% 75%, rgba(95,224,192,0.10), transparent 60%);
+  pointer-events: none;
+}
+
+/* animated trace pulse, single orchestrated hero moment */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 900px; height: 900px;
+  margin: -450px 0 0 -450px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  animation: pcb-pulse 6s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pcb-pulse {
+  0%   { transform: scale(0.55); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  padding: 0 24px;
+  animation: hero-in 0.9s ease both;
+}
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--led);
+  margin: 0 0 14px;
+  letter-spacing: 0.3px;
+}
+
+.hero-title {
+   font-size: clamp(44px, 8vw, 84px);
+   font-weight: 700;
+   color: var(--paper);
+   margin: 0 0 18px;
+   line-height: 1.05;
+   transition: transform 0.3s ease, color 0.3s ease;
+}
+.hero-title:hover {
+   transform: scale(1.05);
+   color: var(--copper-light);
+}
+
+.hero-tagline {
+  font-size: 19px;
+  color: var(--sage);
+  font-weight: 300;
+  margin: 0 0 40px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 14px 30px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  display: inline-block;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--copper-light), var(--copper));
+  color: var(--pcb-darker);
+  box-shadow: 0 6px 20px rgba(201,144,63,0.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(201,144,63,0.38); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--paper);
+  border: 1.5px solid var(--line);
+}
+.btn-secondary:hover { border-color: var(--copper); color: var(--copper-light); }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 36px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: var(--sage);
+  font-size: 20px;
+  animation: bob 2.2s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 8px); }
+}
+
+/* =========================================================
+   About
+   ========================================================= */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.about-card {
+  background: var(--pcb-panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 36px 30px;
+  position: relative;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* signature motif: copper connector-finger strip along the top edge */
+.about-card::before,
+.team-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 24px; right: 24px;
+  height: 3px;
+  background-image: repeating-linear-gradient(90deg, var(--copper) 0 10px, transparent 10px 18px);
+  opacity: 0.85;
+}
+
+.about-card:hover, .team-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--copper);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+}
+
+.about-icon {
+  width: 54px; height: 54px;
+  border-radius: 10px;
+  background: var(--pcb-panel-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  color: var(--led);
+  margin-bottom: 20px;
+}
+
+.about-card h3 {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--paper);
+  margin: 0 0 10px;
+}
+.about-card p {
+  font-size: 14.5px;
+  color: var(--sage);
+  margin: 0;
+  font-weight: 300;
+}
+
+/* =========================================================
+   Team
+   ========================================================= */
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.team-card {
+  background: var(--pcb-panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 34px 26px 28px;
+  text-align: center;
+  position: relative;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.team-img {
+   width: 115px; height: 115px;
+   margin: 6px auto 20px;
+   border-radius: 50%;
+   padding: 3px;
+   background: conic-gradient(var(--copper), var(--led), var(--copper));
+}
+.team-img img {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--pcb-panel);
+}
+
+.team-card h3 {
+  font-size: 17.5px;
+  font-weight: 600;
+  color: var(--paper);
+  margin: 0 0 4px;
+}
+.team-role {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--led);
+  margin: 0 0 14px;
+}
+.team-bio {
+  font-size: 14px;
+  color: var(--sage);
+  font-weight: 300;
+  margin: 0 0 20px;
+  min-height: 42px;
+}
+
+.team-social {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.team-social a {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--pcb-panel-2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sage);
+  font-size: 14px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.team-social a:hover {
+  background: var(--copper);
+  color: var(--pcb-darker);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   Skills
+   ========================================================= */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.skill-item {
+  background: var(--pcb-panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 30px 16px;
+  text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.skill-item:hover { transform: translateY(-4px); border-color: var(--copper); }
+.skill-item i {
+  font-size: 30px;
+  color: var(--copper-light);
+  margin-bottom: 12px;
+  display: block;
+}
+.skill-item span {
+  font-size: 14px;
+  color: var(--sage);
+  font-weight: 400;
+}
+
+/* =========================================================
+   Contact
+   ========================================================= */
+
+.contact-content {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.contact-info { display: flex; flex-direction: column; gap: 26px; }
+.contact-item { display: flex; gap: 16px; align-items: flex-start; }
+.contact-item i {
+  width: 42px; height: 42px;
+  border-radius: 8px;
+  background: var(--pcb-panel);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--led);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.contact-item h4 {
+  font-size: 15px;
+  color: var(--paper);
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+.contact-item p {
+  font-size: 14.5px;
+  color: var(--sage);
+  margin: 0;
+  font-weight: 300;
+}
+
+.contact-form {
+  background: var(--pcb-panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-row { display: flex; gap: 16px; }
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: var(--pcb-darker);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 13px 14px;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder { color: var(--sage); }
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--copper);
+  box-shadow: 0 0 0 3px rgba(201,144,63,0.15);
+}
+.contact-form textarea { resize: vertical; min-height: 110px; }
+.contact-form .btn { align-self: flex-start; border: none; cursor: pointer; }
+.form-status {
+  font-size: 13.5px;
+  color: var(--led);
+  min-height: 18px;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+.footer {
+  background: var(--pcb-darker);
+  border-top: 1px solid var(--line);
+  padding: 64px 0 26px;
+}
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+.footer-brand .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.footer-brand h3 {
+   margin: 0;
+   font-size: 18px;
+   color: var(--paper);
+   transition: transform 0.3s ease, color 0.3s ease;
+}
+.footer-brand h3:hover {
+   transform: scale(1.1);
+   color: var(--copper-light);
+}
+.footer-brand p { margin: 0; color: var(--sage); font-size: 14px; font-weight: 300; }
+
+.footer-links { display: flex; gap: 26px; }
+.footer-links a { color: var(--sage); font-size: 14.5px; transition: color 0.2s ease; }
+.footer-links a:hover { color: var(--copper-light); }
+
+.footer-social { display: flex; align-items: flex-start; gap: 12px; }
+.footer-social a {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--pcb-panel);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sage);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.footer-social a:hover { background: var(--copper); color: var(--pcb-darker); }
+
+.footer-linkedin {
+   display: inline-flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 6px;
+   width: auto;
+   height: auto;
+   padding: 0;
+   border-radius: 0;
+   font-size: 13px;
+   font-weight: 500;
+   color: var(--sage);
+   background: transparent;
+   border: none;
+}
+.footer-linkedin i {
+   width: 36px;
+   height: 36px;
+   border-radius: 50%;
+   background: var(--pcb-panel);
+   border: 1px solid var(--line);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: var(--sage);
+   font-size: 16px;
+   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.footer-linkedin:hover i {
+   background: var(--copper);
+   color: var(--pcb-darker);
+   transform: scale(1.1);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  text-align: center;
+}
+.footer-bottom p { margin: 0; color: var(--sage); font-size: 13px; font-weight: 300; }
+
+/* =========================================================
+   Floating WhatsApp button
+   ========================================================= */
+
+.float-whatsapp {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #1fae5c;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 8px 22px rgba(31,174,92,0.4);
+  z-index: 999;
+  transition: transform 0.2s ease;
+}
+.float-whatsapp:hover { transform: scale(1.08); }
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 960px) {
+  .about-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .skills-grid { grid-template-columns: repeat(3, 1fr); }
+  .contact-content { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .nav-links {
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(8, 29, 23, 0.97);
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 0;
+    gap: 22px;
+    border-bottom: 1px solid var(--line);
+    transform: translateY(-130%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .nav-links.active { transform: translateY(0); opacity: 1; }
+  .nav-whatsapp span { display: none; }
+  .hamburger { display: flex; }
+  .about-grid, .team-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { flex-direction: column; }
+  section { padding: 88px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
