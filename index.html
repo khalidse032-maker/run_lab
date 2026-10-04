@@ -6,10 +6,12 @@
     <title>TAMZK - Web Development Team</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
 
     <nav class="navbar">
         <div class="nav-brand">
@@ -37,19 +39,50 @@
     </nav>
 
     <section id="home" class="hero">
+        <!-- Floating orbs background -->
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+
         <div class="hero-content">
-            <p class="hero-subtitle">Welcome to</p>
-            <h1 class="hero-title">Runtime Lab</h1>
-            <p class="hero-tagline">We Build Digital Experiences That Matter</p>
+            <!-- Status badge -->
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                <span>Available for Projects &amp; Collaborations</span>
+            </div>
+
+            <h1 class="hero-title">
+                We Build<br>
+                <span class="hero-title-gradient">Digital Products</span><br>
+                That Matter
+            </h1>
+
+            <p class="hero-tagline">A full-stack web development team crafting high-performance, beautiful apps — from idea to deployment.</p>
+
+            <!-- Tech pills -->
+            <div class="hero-pills">
+                <span class="hero-pill"><i class="fab fa-react"></i> React</span>
+                <span class="hero-pill"><i class="fab fa-node-js"></i> Node.js</span>
+                <span class="hero-pill"><i class="fas fa-database"></i> MongoDB</span>
+                <span class="hero-pill"><i class="fas fa-code"></i> TypeScript</span>
+            </div>
+
             <div class="hero-buttons">
-                <a href="#team" class="btn btn-primary">Meet the Team</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                <a href="#team" class="btn btn-primary">
+                    <i class="fas fa-users"></i> Meet the Team
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-paper-plane"></i> Get in Touch
+                </a>
             </div>
         </div>
+
+
         <div class="hero-scroll">
             <a href="#about"><i class="fas fa-chevron-down"></i></a>
         </div>
     </section>
+
 
     <section id="about" class="about">
         <div class="container">
@@ -80,16 +113,16 @@
             <h2 class="section-title">Our Team</h2>
             <p class="section-subtitle">Meet the talented developers behind Runtime Lab.</p>
             <div class="team-grid">
-                <div class="team-card">
+                <div class="team-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.3">
                     <div class="team-img">
-                        <img src="./images/tariquu.jpeg" alt="Tariq Aziz" onerror="this.src='images/tariq-aziz.svg'">
+                        <img src="./images/qazifarhan.jpeg" alt="Qazi Farhan Ahmad" onerror="this.src='images/qazifarhan.jpeg'">
                     </div>
-                    <h3>Tariq Aziz</h3>
+                    <h3>Qazi Farhan Ahmad</h3>
                     <p class="team-role">Full Stack Developer</p>
                     <p class="team-bio">Specializes in building robust backend systems and seamless frontend experiences.</p>
                     <div class="team-social">
                         <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/tariqazizkhan?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                     </div>
                 </div>
@@ -108,14 +141,14 @@
                 </div>
                 <div class="team-card">
                     <div class="team-img">
-                        <img src="./images/ZahiAli.jpg.jpeg" alt="Zahid Ali" onerror="this.src='images/zahid-ali.svg'">
+                        <img src="./images/muhammad-khalid.png" alt="Muhammad Khalid" onerror="this.src='images/muhammad-khalid.svg'">
                     </div>
-                    <h3>Zahid Ali</h3>
-                    <p class="team-role">Backend Developer</p>
-                    <p class="team-bio">Expert in database architecture, APIs, and server-side logic optimization.</p>
+                    <h3>Muhammad Khalid</h3>
+                    <p class="team-role">Full Stack Web Developer</p>
+                    <p class="team-bio">Specializes in building end-to-end web applications with modern technologies.</p>
                     <div class="team-social">
                         <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/zahid-ali-117749424" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                     </div>
                 </div>
@@ -165,39 +198,107 @@
     <section id="skills" class="skills">
         <div class="container">
             <h2 class="section-title">Our Skills</h2>
-            <p class="section-subtitle">Technologies and tools we work with.</p>
-            <div class="skills-grid">
-                <div class="skill-item">
-                    <i class="fab fa-html5"></i>
-                    <span>HTML5</span>
+            <p class="section-subtitle">Technologies and tools we master to build full-stack digital products.</p>
+
+            <div class="skills-category">
+                <p class="skills-cat-label">Frontend</p>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#e44d26">
+                            <i class="fab fa-html5"></i>
+                        </div>
+                        <span>HTML5</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#264de4">
+                            <i class="fab fa-css3-alt"></i>
+                        </div>
+                        <span>CSS3</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#61dafb">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <span>React</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#06b6d4">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <span>Tailwind CSS</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#7952b3">
+                            <i class="fab fa-bootstrap"></i>
+                        </div>
+                        <span>Bootstrap</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#f7df1e">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <span>JavaScript</span>
+                    </div>
                 </div>
-                <div class="skill-item">
-                    <i class="fab fa-css3-alt"></i>
-                    <span>CSS3</span>
+            </div>
+
+            <div class="skills-category">
+                <p class="skills-cat-label">Backend & Runtime</p>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#68a063">
+                            <i class="fab fa-node-js"></i>
+                        </div>
+                        <span>Node.js</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#888">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <span>Express.js</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#3178c6">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <span>TypeScript</span>
+                    </div>
                 </div>
-                <div class="skill-item">
-                    <i class="fab fa-js-square"></i>
-                    <span>JavaScript</span>
+            </div>
+
+            <div class="skills-category">
+                <p class="skills-cat-label">Databases</p>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#4db33d">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <span>MongoDB</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#00758f">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <span>MySQL</span>
+                    </div>
                 </div>
-                <div class="skill-item">
-                    <i class="fab fa-react"></i>
-                    <span>React</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-node-js"></i>
-                    <span>Node.js</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-python"></i>
-                    <span>Python</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fas fa-database"></i>
-                    <span>SQL</span>
-                </div>
-                <div class="skill-item">
-                    <i class="fab fa-git-alt"></i>
-                    <span>Git</span>
+            </div>
+
+            <div class="skills-category">
+                <p class="skills-cat-label">Tools & Workflow</p>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#f14e32">
+                            <i class="fab fa-git-alt"></i>
+                        </div>
+                        <span>Git</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon-wrap" style="--skill-color:#fff">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <span>GitHub</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -233,8 +334,8 @@
                 </div>
                 <form class="contact-form" id="contactForm">
                     <div class="form-row">
-                        <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        <input type="text" id="name" name="user_name" placeholder="Your Name" required>
+                        <input type="email" id="email" name="user_email" placeholder="Your Email" required>
                     </div>
                     <input type="text" id="subject" name="subject" placeholder="Subject">
                     <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
@@ -246,37 +347,81 @@
     </section>
 
     <footer class="footer">
+        <div class="footer-glow"></div>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <a href="#home" class="logo">
-                        <img src="./images/RunTime.jpeg" alt="TAMZK Logo" class="logo-img">
-                        <h3>Runtime Lab</h3>
+            <div class="footer-top">
+                <!-- Brand Column -->
+                <div class="footer-col footer-brand-col">
+                    <a href="#home" class="footer-logo">
+                        <img src="./images/RunTime.jpeg" alt="Runtime Lab Logo" class="logo-img">
+                        <span>Runtime Lab</span>
                     </a>
-                    <p>Building the web, together.</p>
+                    <p class="footer-tagline">We craft digital experiences that<br>inspire and convert.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/company/tamzk-group-of-companies/home/?viewAsMember=true" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://chat.whatsapp.com/BoSAYlJmkCm6Ai9364NN96" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
-                <div class="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#team">Team</a>
-                    <a href="#contact">Contact</a>
+
+                <!-- Quick Links -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Navigation</h4>
+                    <ul class="footer-nav">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i>Home</a></li>
+                        <li><a href="#about"><i class="fas fa-chevron-right"></i>About</a></li>
+                        <li><a href="#team"><i class="fas fa-chevron-right"></i>Team</a></li>
+                        <li><a href="#skills"><i class="fas fa-chevron-right"></i>Skills</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i>Contact</a></li>
+                    </ul>
                 </div>
-                 <div class="footer-social">
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/company/tamzk-group-of-companies/home/?viewAsMember=true" target="_blank" class="footer-linkedin">
-                        <i class="fab fa-linkedin-in"></i>
-                        <span>Company LinkedIn</span>
-                    </a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+
+                <!-- Services -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">What We Build</h4>
+                    <ul class="footer-nav">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Web Applications</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>REST APIs</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>UI/UX Design</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>E-Commerce</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i>Dashboards</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Get In Touch</h4>
+                    <ul class="footer-contact-list">
+                        <li>
+                            <span class="footer-contact-icon"><i class="fas fa-envelope"></i></span>
+                            <a href="mailto:RunTimeLab4You.dev@gmail.com">RunTimeLab4You.dev@gmail.com</a>
+                        </li>
+                        <li>
+                            <span class="footer-contact-icon"><i class="fas fa-phone"></i></span>
+                            <a href="tel:+923115324411">+92 311 5324411</a>
+                        </li>
+                        <li>
+                            <span class="footer-contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+                            <span>Pakistan 🇵🇰</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2026 Runtime Lab. All rights reserved.</p>
+                <p>&copy; 2026 <strong>Runtime Lab</strong>. All rights reserved.</p>
+                <p class="footer-made-with">Made with <span style="color:#ef4444">&#10084;</span> in Pakistan</p>
             </div>
         </div>
     </footer>
 
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <script src="./script.js"></script>
 
     <!-- Floating WhatsApp Button -->
