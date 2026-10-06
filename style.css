@@ -856,25 +856,40 @@ section {
   .skills-category { margin-bottom: 32px; }
 }
 
-/* Hero Grid Shimmering Effect */
+/* Hero Grid Base */
 .hero-grid {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background-size: 50px 50px;
   background-image: 
-    linear-gradient(rgba(59, 130, 246, 0.25) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.25) 2px, transparent 2px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(59, 130, 246, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.2) 1px, transparent 1px);
   z-index: 1;
   pointer-events: none;
-  mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
-  -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
-  animation: grid-shimmer 3s ease-in-out infinite alternate;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
 }
 
-@keyframes grid-shimmer {
-  0% { opacity: 0.3; transform: scale(1) translateY(0); filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5)); }
-  100% { opacity: 1; transform: scale(1.05) translateY(10px); filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.9)); }
+/* The Bright Shimmering Sweep */
+.hero-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  mask-image: linear-gradient(110deg, transparent 40%, black 50%, transparent 60%);
+  -webkit-mask-image: linear-gradient(110deg, transparent 40%, black 50%, transparent 60%);
+  mask-size: 300% 100%;
+  -webkit-mask-size: 300% 100%;
+  animation: grid-true-shimmer 5s infinite linear;
+}
+
+@keyframes grid-true-shimmer {
+  0% { mask-position: 200% 0; -webkit-mask-position: 200% 0; }
+  100% { mask-position: -100% 0; -webkit-mask-position: -100% 0; }
 }
