@@ -109,3 +109,32 @@ if (contactForm) {
       });
   });
 }
+
+// Tech Matrix Animation for Hero Section
+function initMatrixAnimation() {
+    const canvas = document.getElementById('tech-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const chars = '0110010101110011010100110101010001001001'.split('');
+    const fontSize = 16;
+    const columns = Math.ceil(canvas.width / fontSize);
+    const drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
+    function draw() {
+        ctx.fillStyle = 'rgba(3, 3, 3, 0.08)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#3b82f6';
+        ctx.font = fontSize + 'px monospace';
+        for(let i = 0; i < drops.length; i++) {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+    setInterval(draw, 40);
+}
+document.addEventListener('DOMContentLoaded', initMatrixAnimation);
